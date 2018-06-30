@@ -1,38 +1,53 @@
 package ModalClasses;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Content {
 
+	//-----------------------primary Attributes---------------------------//
 	@Id
-	private int content_id;
-	private String img_link;
-	private String video_link;
-	private String textParagraphs;
-	public int getContent_id() {
-		return content_id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="content_id")
+	private int contentId;
+	
+	private String text;
+	private String imagesLink;
+	private String videosLink;
+	
+	//------------------------getters and setters-------------------------//
+	public int getContentId() {
+		return contentId;
 	}
-	public void setContent_id(int content_id) {
-		this.content_id = content_id;
+	public void setContentId(int contentId) {
+		this.contentId = contentId;
 	}
-	public String getImg_link() {
-		return img_link;
+	public String getText() {
+		return text;
 	}
-	public void setImg_link(String img_link) {
-		this.img_link = img_link;
+	public void setText(String text) {
+		this.text = text;
 	}
-	public String getVideo_link() {
-		return video_link;
+	public String getImagesLink() {
+		return imagesLink;
 	}
-	public void setVideo_link(String video_link) {
-		this.video_link = video_link;
+	public void setImagesLink(String imagesLink) {
+		this.imagesLink = imagesLink;
 	}
-	public String getTextParagraphs() {
-		return textParagraphs;
+	public String getVideosLink() {
+		return videosLink;
 	}
-	public void setTextParagraphs(String textParagraphs) {
-		this.textParagraphs = textParagraphs;
+	public void setVideosLink(String videosLink) {
+		this.videosLink = videosLink;
 	}
+	@Override
+	public String toString() {
+		return "Content [" + contentId + ", " + text + ", " + imagesLink + ", " + videosLink + "]";
+	}
+	
+	
 }

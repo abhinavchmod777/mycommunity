@@ -10,9 +10,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import ModalClasses.Enums.PrivatePublic;
 
 
 @Entity
@@ -20,6 +28,7 @@ public class Community {
 
 //------------------primary properties---------------------//	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int communityId;
 	@Column(name="community_name")
 	private String communityName;
@@ -28,16 +37,30 @@ public class Community {
 	private PrivatePublic status;
 
 //------------mapped properties---------------------------//
-	@ManyToMany(mappedBy="communities",cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL)
 	private Set<RmeUser> members = new HashSet<RmeUser>();
 	
-	@OneToMany(mappedBy="community",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="community",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private Set<Invite> invites = new HashSet<Invite>();
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="community_chat")
+	private Chat communityChat;
+
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="admin_id")
+	private RmeUser admin;
 	
 	
 //------------------------getters and setters-------------//
 	public int getCommunityId() {
 		return communityId;
+	}
+	public Chat getCommunityChat() {
+		return communityChat;
+	}
+	public void setCommunityChat(Chat communityChat) {
+		this.communityChat = communityChat;
 	}
 	public void setCommunityId(int communityId) {
 		this.communityId = communityId;
@@ -71,7 +94,15 @@ public class Community {
 	}
 	public void setInvites(Set<Invite> invites) {
 		this.invites = invites;
-	}	@Override
+	}	
+	
+	public RmeUser getAdmin() {
+		return admin;
+	}
+	public void setAdmin(RmeUser adminId) {
+		this.admin = adminId;
+	}
+	@Override
 	public String toString() {
 		List<Integer> mids = new ArrayList<Integer>();
 		for(RmeUser r : members)

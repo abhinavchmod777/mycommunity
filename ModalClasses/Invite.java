@@ -4,15 +4,20 @@ package ModalClasses;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import ModalClasses.Enums.Status;
 
 @Entity
 public class Invite {
 
 //----------------primary properties----------------//	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="invitation_id")
 	private int invitationId;
 	private boolean added;
